@@ -1,7 +1,7 @@
 import json
 import psycopg2
 
-# Налаштування підключення до PostgreSQL
+
 conn_params = {
     "dbname": "test2",
     "user": "postgres",
@@ -10,10 +10,9 @@ conn_params = {
     "port": 5432
 }
 
-# Шлях до JSON-файлу
+
 file_path = r"C:\Users\Denis\Downloads\random_books.json"
 
-# Створення таблиці для збереження даних
 create_table_query = """
 CREATE TABLE IF NOT EXISTS books (
     id SERIAL PRIMARY KEY,
@@ -23,21 +22,21 @@ CREATE TABLE IF NOT EXISTS books (
 );
 """
 
-# Читання даних з JSON-файлу
+
 with open(file_path, "r", encoding="utf-8") as file:
     books = json.load(file)
 
-# Підключення до бази даних та імпорт даних
+
 try:
-    # Підключення
+    
     conn = psycopg2.connect(**conn_params)
     cursor = conn.cursor()
     
-    # Створення таблиці
+    
     cursor.execute(create_table_query)
     conn.commit()
     
-    # Вставка даних у таблицю
+    
     insert_query = """
     INSERT INTO books (title, author, publication_year)
     VALUES (%s, %s, %s);
